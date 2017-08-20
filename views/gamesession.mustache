@@ -1,0 +1,16 @@
+<!--
+<form class="guesses" action="/" method="post">
+    <input type="text" name="guess" value="">
+    <input type="" name="" value="">
+</form> -->
+
+<h4>   {{wordLines}} +++ {{#word}}{{.}}{{/word}}</h4>
+
+<form class="guesses" action="/" method="post">
+    <input type="text" name="guess" value="" maxlength="1" autofocus placeholder="Guess a letter!">
+    <button type="submit" name="button">Make a guess</button>
+</form>
+
+<p>your guesses so far : {{#allUserGuesses}}{{.}},     {{/allUserGuesses}} </p>
+<p>you have <strong> {{#countSum}}{{.}}{{/countSum}}{{^countSum}}8{{/countSum}} </strong> guesses left </p>
+<hr>
