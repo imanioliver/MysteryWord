@@ -11,6 +11,8 @@ let word = (gameWords[Math.floor(Math.random()*gameWords.length)]).toLowerCase()
 splitWord = [word.split('')];
 console.log('the split up ' + splitWord);
 
+
+
 router.post('/', function(req, res){
 
     req.session.guesscount= 8;
@@ -56,8 +58,9 @@ router.post('/', function(req, res){
 
 
     console.log(theGuessCount, "<--the guesscount is checked a second time here");
-    console.log(req.session, " the session");
+    // console.log(req.session, " the session");
     let countSum = theGuessCount + testCountOutput;
+    theGuessCount = theGuessCount +testCountOutput;
     let string = '_ ';
     if (countSum <= 0){
         res.redirect('/lost');
@@ -65,11 +68,14 @@ router.post('/', function(req, res){
     // else if (countSum >= 0 && (output.indexOf(string) === -1)) {
     //     console.log(word, "this should have no underscores in it");
     //     res.redirect('/won');
-    // }
-    else {
-        res.render('gamesession', {word: output, allUserGuesses:allUserGuesses, countSum: countSum});
+
+    else if (!output.contains(string)){
+        res.redirect('/won');
+
+    }    else {
+        res.render('gamesession', {word: output, allUserGuesses:allUserGuesses, countSum: countSum, theGuessCount:theGuessCount});
     };//when you see word in mustache, show this-->
-    console.log(req.session, " the session");
+    // console.log(req.session, " the session");
 });
 
 
@@ -93,16 +99,17 @@ router.get('/', function(req, res){
     //     // console.log(wordLines);
     //     console.log("_ "+ " here each line"); {wordLines}
     // }
+    req.session.word = word;
     req.session.guesses=8
     res.render('gamesession', {word:word});
-    console.log(req.session, " session on get home");
+    // console.log(req.session, " session on get home");
     // console.log(req, "req on get home");
-        console.log(req.session, " the session for get /");
+        // console.log(req.session, " the session for get /");
 });
 
 router.get("/playagain", function(req, res) {
   // req.session.destroy(); is good too
-  console.log(req.session, " session on play again");
+  // console.log(req.session, " session on play again");
   // console.log(req, "req on playagain");
 
   req.session.destroy(function(err) {
