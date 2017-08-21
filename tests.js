@@ -68,3 +68,15 @@
 //tests for guessHandler
         console.log(guessHandler, " gh is working");
         guessHandler();
+
+
+
+
+        // else if (countSum >= 0 && (output.indexOf(string) === -1)) {
+        //     console.log(word, "this should have no underscores in it");
+        //     res.redirect('/won');
+
+
+
+        //when you see word in mustache, show this-->
+        // console.log(req.session, " the session");

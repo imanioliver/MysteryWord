@@ -1,5 +1,7 @@
-const express = require('express');
-const router = express.Router();
+const express           = require('express');
+const router            = express.Router();
+const fs                = require ("fs");
+const wordss            = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().split("\n");
 
 let gameWords = ["BLOOM", "FLOWER", "BURST", "CATHARTIC", "BLOOMINGDALES", "AMAZING", "YES", "rambunctious"];
 let allUserGuesses = [];
@@ -15,6 +17,7 @@ console.log('the split up ' + splitWord);
 
 router.post('/', function(req, res){
 
+    req.session.word = word;
     req.session.guesscount= 8;
     let theGuessCount= req.session.guesscount;
     console.log(theGuessCount, "<-- guesscount is defined here");
@@ -65,17 +68,14 @@ router.post('/', function(req, res){
     if (countSum <= 0){
         res.redirect('/lost');
     }
-    // else if (countSum >= 0 && (output.indexOf(string) === -1)) {
-    //     console.log(word, "this should have no underscores in it");
-    //     res.redirect('/won');
+
 
     else if (!output.includes(string, 0)){
         res.redirect('/won');
 
     }    else {
         res.render('gamesession', {word: output, allUserGuesses:allUserGuesses, countSum: countSum, theGuessCount:theGuessCount});
-    };//when you see word in mustache, show this-->
-    // console.log(req.session, " the session");
+    };
 });
 
 
@@ -87,37 +87,53 @@ router.get('/lost', function (req, res) {
  res.render('lost', {word:word});
 });
 
+router.post('/lost', function(req, res){
+    req.session.destroy();
+    reset();
+    res.redirect('/');
+});
+
 router.get('/won', function (req, res){
-    res.send('YOU WON!!!')
+    res.render('won', {word:word});
+});
+
+router.post('/won', function(req, res){
+    req.session.destroy();
+    reset();
+    res.redirect('/');
 });
 
 
+let wordLines = '';
 router.get('/', function(req, res){
-    // let wordLines = '';
-    // for (var i = 0; i < word.length; i++) {
-    //     wordLines += "_ ",
-    //     // console.log(wordLines);
-    //     console.log("_ "+ " here each line"); {wordLines}
-    // }
+
+    for (var i = 0; i < word.length; i++) {
+        wordLines += "_ ",
+        // console.log(wordLines);
+        console.log("_ "+ " here each line"); {wordLines}
+    }
     req.session.word = word;
     req.session.guesses=8
-    res.render('gamesession', {word:word});
+    res.render('gamesession', {wordLines:wordLines});
     // console.log(req.session, " session on get home");
     // console.log(req, "req on get home");
         // console.log(req.session, " the session for get /");
 });
 
 router.get("/playagain", function(req, res) {
-  // req.session.destroy(); is good too
-  // console.log(req.session, " session on play again");
-  // console.log(req, "req on playagain");
-
-  req.session.destroy(function(err) {
-    console.log(err);
-  });
-
+  req.session.destroy();
+  reset();
   res.redirect("/");
 });
+
+
+function reset () {
+    word = (gameWords[Math.floor(Math.random()*gameWords.length)]).toLowerCase(); //this is where you will lowercase the word
+        console.log('The computer chose:' + word);
+    allUserGuesses = [];
+    wordLines = '';
+
+}
 
 
 

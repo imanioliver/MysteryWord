@@ -4,7 +4,7 @@
     <input type="" name="" value="">
 </form> -->
 
-<h4>   {{wordLines}} +++ {{#word}}{{.}}{{/word}}</h4>
+<h4>   {{wordLines}} {{#word}}{{.}}{{/word}}</h4>
 
 <form class="guesses" action="/" method="post">
     <input type="text" name="guess" value="" maxlength="1" autofocus placeholder="Guess a letter!">
