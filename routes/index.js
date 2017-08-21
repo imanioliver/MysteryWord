@@ -69,7 +69,7 @@ router.post('/', function(req, res){
     //     console.log(word, "this should have no underscores in it");
     //     res.redirect('/won');
 
-    else if (!output.contains(string)){
+    else if (!output.includes(string, 0)){
         res.redirect('/won');
 
     }    else {
