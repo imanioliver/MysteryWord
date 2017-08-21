@@ -5,7 +5,7 @@ const wordss            = fs.readFileSync("/usr/share/dict/words", "utf-8").toLo
 
 let gameWords = ["BLOOM", "FLOWER", "BURST", "CATHARTIC", "BLOOMINGDALES", "AMAZING", "YES", "rambunctious"];
 let allUserGuesses = [];
-let word = (gameWords[Math.floor(Math.random()*gameWords.length)]).toLowerCase(); //this is where you will lowercase the word
+let word = (wordss[Math.floor(Math.random()*wordss.length)]).toLowerCase(); //this is where you will lowercase the word
     console.log('The computer chose:' + word);
     //turn word into array here
 
